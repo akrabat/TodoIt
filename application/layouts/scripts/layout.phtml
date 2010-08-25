@@ -1,0 +1,21 @@
+<?php 
+$this->headMeta()->appendHttpEquiv(
+	'Content-Type', 'text/html;charset=utf-8');
+$this->headTitle('Todo List')->setSeparator(' - ');
+
+echo $this->doctype(); ?>  
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head>
+    <?php echo $this->headMeta(); ?> 
+    <?php echo $this->headTitle(); ?> 
+    <?php echo $this->headLink()->appendStylesheet($this->baseUrl().'/css/site.css'); ?> 
+</head>
+<body>
+<div id="header">
+    <div id="logged-in-as"><?php echo $this->loggedInAs(); ?></div>
+</div>
+<div id="content">
+    <?php echo $this->layout()->content; ?>
+</div>
+</body>
+</html>

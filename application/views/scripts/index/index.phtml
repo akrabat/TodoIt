@@ -1,0 +1,37 @@
+<?php $this->headTitle('Tasks'); ?>
+<h1><?php echo $this->escape($this->title); ?></h1>
+<?php if (count($this->messages)) : ?>
+<div id="messages"><?php echo $this->messages[0]; ?></div>
+<?php endif; ?>
+<table class="tasks">
+<tr>
+    <th>Task</th>
+    <th>Due</th>
+    <?php /* <th>Action</th> */ ?>
+</tr>
+<?php foreach ($this->outstandingTasks as $task) : ?>
+<tr>
+    <td><a href="<?php echo $this->url(array('action'=>'view', 'id'=>$task->getId())); ?>"><?php echo $this->escape($task->getTitle()); ?></a></td>
+    <td><?php echo $task->getDueDate() ? date('d M Y', strtotime($task->getDueDate())) : '-';?></td>
+    <?php /* <td><a href="<?php echo $this->url(array('action'=>'markdone', 'id'=>$task->id)); ?>">mark done</a></td> */?> 
+</tr>
+<?php endforeach;?>
+</table>
+<p><a href="<?php echo $this->url(array('action'=>'add')); ?>">Add task</a></p>
+
+
+<h2>Recently completed tasks</h2>
+<table class="tasks">
+<tr>
+    <th>Task</th>
+    <th>Completed</th>
+    <?php /* <th>Action</th> */ ?>
+</tr>
+<?php foreach ($this->recentlyCompletedTasks as $task) : ?>
+<tr>
+    <td><a href="<?php echo $this->url(array('action'=>'view', 'id'=>$task->getId())); ?>"><?php echo $this->escape($task->getTitle()); ?></a></td>
+    <td><?php echo $task->getDateCompleted() ? date('d M Y', strtotime($task->getDateCompleted())) : '-';?></td>
+    <?php /* <td><a href="<?php echo $this->url(array('action'=>'markdone', 'id'=>$task->id)); ?>">mark done</a></td> */?> 
+</tr>
+<?php endforeach;?>
+</table>

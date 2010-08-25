@@ -1,0 +1,21 @@
+<?php $this->headTitle('View task'); ?>
+<h1><?php echo $this->escape($this->task->getTitle()); ?></h1>
+<?php if (count($this->messages)) : ?>
+<div id="messages"><?php echo $this->messages[0]; ?></div>
+<?php endif; ?>
+<p>Due:
+<?php if ($this->task->getDueDate()) : ?>
+<?php echo date('j M Y', strtotime($this->task->getDueDate()));?>
+<?php else :?> Not set <?php endif;?>
+</p>
+<p>Completed:
+<?php if ($this->task->getDateCompleted()) : ?>
+<?php echo date('j M Y', strtotime($this->task->getDateCompleted()));?>
+<?php else :?> Not yet <?php endif;?>
+</p>
+<p>Notes: <?php echo $this->escape($this->task->getNotes()); ?></p>
+
+<p>
+      <a href="<?php echo $this->url(array('action'=>'edit', 'id'=>$this->task->getId())); ?>">edit</a>
+    | <a href="<?php echo $this->url(array('action'=>'index')); ?>">return</a>
+</p>

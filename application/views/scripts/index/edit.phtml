@@ -1,0 +1,7 @@
+<?php $this->headTitle('Edit task'); ?>
+<h1>Edit task</h1>
+<?php
+$this->form->setAction($this->url());
+$this->form->submitbutton->setLabel('Save');
+echo $this->form;
+?>
