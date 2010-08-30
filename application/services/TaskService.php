@@ -1,6 +1,6 @@
 <?php
 
-class Application_Model_TaskService
+class Application_Service_TaskService
 {
     /**
      * @var Application_Acl

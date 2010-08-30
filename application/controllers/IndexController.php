@@ -10,7 +10,7 @@ class IndexController extends Zend_Controller_Action
     public function indexAction()
     {
         $this->view->title = 'Outstanding tasks';
-        $taskService = new Application_Model_TaskService();
+        $taskService = new Application_Service_TaskService();
         $this->view->outstandingTasks = $taskService->fetchOutstanding();
         $this->view->recentlyCompletedTasks = $taskService->fetchRecentlyCompleted();
         
@@ -26,7 +26,7 @@ class IndexController extends Zend_Controller_Action
             if ($form->isValid($request->getPost())) {
                 // success
                 $formData = $form->getValues();
-                $taskService = new Application_Model_TaskService();
+                $taskService = new Application_Service_TaskService();
                 $task = $taskService->create($formData);
                 $this->_helper->flashMessenger->addMessage('Task added');
                 $this->_helper->redirector('view', null, null, array('id'=>$task->id));
@@ -39,7 +39,7 @@ class IndexController extends Zend_Controller_Action
     public function editAction()
     {
         $request = $this->getRequest();
-        $taskService = new Application_Model_TaskService();
+        $taskService = new Application_Service_TaskService();
 
         $form = new Application_Form_Task();
         if ($request->isPost()) {
@@ -66,7 +66,7 @@ class IndexController extends Zend_Controller_Action
     public function viewAction()
     {
         $request = $this->getRequest();
-        $taskService = new Application_Model_TaskService();
+        $taskService = new Application_Service_TaskService();
         $task = $taskService->loadById((int)$request->getParam('id'));
         if (!$task) {
             $this->_helper->redirector('index');
