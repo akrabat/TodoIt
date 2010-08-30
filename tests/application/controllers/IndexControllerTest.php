@@ -2,7 +2,7 @@
 
 // Call IndexControllerTest::main() if this source file is executed directly.
 if (!defined("PHPUnit_MAIN_METHOD")) {
-    define("PHPUnit_MAIN_METHOD", "AuthControllerTest::main");
+    define("PHPUnit_MAIN_METHOD", "IndexControllerTest::main");
 }
 
 require_once 'PHPUnit/Framework/TestCase.php';
@@ -10,7 +10,7 @@ require_once 'PHPUnit/Framework/TestCase.php';
 /**
  * @group Controllers
  */
-class AuthControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
+class IndexControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
 {
     public static function main()
     {
@@ -34,11 +34,10 @@ class AuthControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
         /* Tear Down Routine */
     }
 
-    public function testLoginDisplaysAForm()
+    public function testHomePageShouldRedirectToAuthPage()
     {
-        $this->dispatch('/auth/index');
-        $this->assertQueryContentContains('h1', 'Login');
-        $this->assertQuery('form#login'); // id of form
+        $this->dispatch('/');
+        $this->assertRedirectRegex('#auth#');
     }
 }
 
