@@ -1,6 +1,6 @@
 <?php
 
-// Call IndexControllerTest::main() if this source file is executed directly.
+// Call AuthControllerTest::main() if this source file is executed directly.
 if (!defined("PHPUnit_MAIN_METHOD")) {
     define("PHPUnit_MAIN_METHOD", "AuthControllerTest::main");
 }
@@ -37,6 +37,7 @@ class AuthControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
     public function testLoginDisplaysAForm()
     {
         $this->dispatch('/auth/index');
+        $this->assertResponseCode(200);
         $this->assertQueryContentContains('h1', 'Login');
         $this->assertQuery('form#login'); // id of form
     }
