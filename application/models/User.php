@@ -2,8 +2,9 @@
 
 class Application_Model_User implements Zend_Acl_Role_Interface, Zend_Acl_Resource_Interface
 {
-    protected $_username = 'guest';
+    protected $_username;
     protected $_password;
+    protected $_salt;
     protected $_role = 'guest';
     protected $_date_created;
     
@@ -14,6 +15,9 @@ class Application_Model_User implements Zend_Acl_Role_Interface, Zend_Acl_Resour
             $this->setFromArray($data);
         } else if (is_object($data)) {
             $this->setFromObject($data);
+        }
+        if (is_null($this->_salt)) {
+            $this->_salt = sha1(mt_rand());
         }
     }
     

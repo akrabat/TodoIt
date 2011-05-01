@@ -16,5 +16,11 @@ class Application_Acl extends Zend_Acl
         
         // Resources (Models)
         $this->addResource(new Zend_Acl_Resource('task'));
+        
+        // Rules for controller access
+        $this->deny();
+        $this->allow('guest', 'authController', null);
+        $this->allow('guest', 'errorController', null);
+        $this->allow('user', 'indexController', null);
     }
 }

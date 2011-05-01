@@ -21,13 +21,6 @@ class Application_Plugin_Acl extends Zend_Controller_Plugin_Abstract
     {
         if (null === $this->_acl) {
             $acl = new Application_Acl();
-    
-            // Rules for controller access
-            $acl->deny();
-            $acl->allow('guest', 'authController', null);
-            $acl->allow('guest', 'errorController', null);
-            $acl->allow('user', 'indexController', null);
-            
             $this->_acl = $acl;
         }
         return $this->_acl;
@@ -65,7 +58,7 @@ class Application_Plugin_Acl extends Zend_Controller_Plugin_Abstract
      */
     public function dispatchLoopStartup(Zend_Controller_Request_Abstract $request)
     { 
-        $acl = $this->getAcl();
+        $acl = $this->getAcl(); /* @var $acl Application_Acl */
         $user = $this->getCurrentUser();
         $resource = $request->getControllerName() . 'Controller';
         $privilege = $request->getActionName();
@@ -84,6 +77,7 @@ class Application_Plugin_Acl extends Zend_Controller_Plugin_Abstract
             $redirector->gotoSimple($action, $controller);
         }
     }
+    
 
 }
 

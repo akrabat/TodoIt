@@ -49,9 +49,9 @@ class Zend_View_Helper_FormDateFull extends Zend_View_Helper_FormElement
             if($startYear == 'now') {
                 $startYear = date("Y");
             } else if($startYear{0} == '+') {
-                $startYear = date("Y") + substr($stopYear, 1);
+                $startYear = date("Y") + substr($startYear, 1);
             } else if($startYear{0} == '-') {
-                $startYear = date("Y") - substr($stopYear, 1);
+                $startYear = date("Y") - substr($startYear, 1);
             }
             unset($attribs['startYear']);
         }
