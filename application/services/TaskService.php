@@ -59,15 +59,8 @@ class Application_Service_TaskService
         $cache = $this->_getCache();
         $tasks = $cache->load($cacheId);
         if ($tasks === false) {
-            $tasksGateway = new Application_Model_DbTable_Tasks();
-            $rows = $tasksGateway->fetchOutstanding();
-            
-            $tasks = array();
-            foreach($rows as $row) {
-                $task = new Application_Model_Task($row);
-                $tasks[] = $task;
-            }
-            
+            $mapper = new Application_Model_TaskMapper();
+            $tasks = $mapper->fetchOutstanding();
             $cache->save($tasks, $cacheId, array('tasks'));
         }
         return $tasks;
@@ -85,15 +78,9 @@ class Application_Service_TaskService
         $cache = $this->_getCache();
         $tasks = $cache->load($cacheId);
         if ($tasks === false) {
-            $tasksGateway = new Application_Model_DbTable_Tasks();
-            $rows = $tasksGateway->fetchRecentlyCompleted();
-            
-            $tasks = array();
-            foreach($rows as $row) {
-                $task = new Application_Model_Task($row);
-                $tasks[] = $task;
-            }
-            
+            $mapper = new Application_Model_TaskMapper();
+            $tasks = $mapper->fetchRecentlyCompleted();
+
             $cache->save($tasks, $cacheId, array('tasks'));
         }
         return $tasks;
@@ -116,13 +103,12 @@ class Application_Service_TaskService
         $cache = $this->_getCache();
         $task = $cache->load($cacheId);
         if ($task === false) {
-            $tasksGateway = new Application_Model_DbTable_Tasks();
-            $data = $tasksGateway->loadById($id);
-            
-            if(empty($data)) {
+            $mapper = new Application_Model_TaskMapper();
+            $task = $mapper->loadById($id);
+            if(!$task) {
                 return false;
             }
-            $task = new Application_Model_Task($data);
+            
             $cache->save($task, $cacheId, array('tasks'));
         }
         return $task;
@@ -138,8 +124,8 @@ class Application_Service_TaskService
             throw new Exception("Not Allowed");
         }
         
-        $tasksGateway = new Application_Model_DbTable_Tasks();
-        $tasksGateway->addTask($task->toArray());
+        $mapper = new Application_Model_TaskMapper();
+        $mapper->addTask($task);
         $this->_cleanCache();
         return $task;
     }
@@ -159,8 +145,8 @@ class Application_Service_TaskService
             throw new Exception("Not Allowed");
         }
         
-        $tasksGateway = new Application_Model_DbTable_Tasks();
-        $tasksGateway->updateTask($task->toArray());
+        $mapper = new Application_Model_TaskMapper();
+        $mapper->updateTask($task);
         $this->_cleanCache();
         return $task;
     }

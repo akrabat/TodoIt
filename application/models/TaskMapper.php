@@ -1,45 +1,87 @@
 <?php
 
-/**
- * Database storage for tasks. Note that task data is transferred to
- * and from the database as arrays. This TableGateway doesn't know
- * anything about the higher level abstractions of the data.
- * 
- * By convention loadXxx() methods return a single row and
- * fetchXxx() methods return an array of rows.
- *
- * @author rob (rob@akrabat.com)
- *
- */
-class Application_Model_DbTable_Tasks extends Zend_Db_Table_Abstract
+class Application_Model_TaskMapper
 {
-    protected $_name = 'tasks';
+    /**
+     * @var Zend_Db_Adapter_Abstract
+     */
+    protected $_dbAdapter;
+    
+    protected $_tableName = 'tasks';
+    
+    public function setDbAdapter(Zend_Db_Adapter_Abstract $dbAdapter)
+    {
+        $this->_dbAdapter = $dbAdapter;
+        return $this;
+    }
 
+    /**
+     * @return Zend_Db_Adapter_Abstract
+     */
+    public function getDbAdapter()
+    {
+        if (null === $this->_dbAdapter) {
+            $this->setDbAdapter(Zend_Db_Table::getDefaultAdapter());
+        }
+        return $this->_dbAdapter;
+    }
+    
+    /**
+     * @return Zend_Db_Select
+     */
+    protected function _select()
+    {
+        $select = $this->getDbAdapter()->select();
+        $select->from($this->_tableName);
+        
+        return $select;
+    }
+    
     public function loadById($id) {
-        $row = $this->fetchRow('id = ' . (int)$id);
-
-        return $row->toArray();
+        $db = $this->getDbAdapter();
+        $select = $db->select();
+        $select->from($this->_tableName);
+        $select->where('id = ?', (int)$id);
+        $row = $db->fetchRow($select);
+        if(!$row) {
+            return false;
+        }
+        $task = new Application_Model_Task($row);
+        return $task;
     }
     
     public function fetchRecentlyCompleted()
     {
-        $select = $this->select();
+        $db = $this->getDbAdapter();
+        $select = $db->select();
+        $select->from($this->_tableName);
         $select->where('date_completed IS NOT NULL');
         $select->order(array('date_completed DESC', 'id DESC'));
-        $rows = $this->fetchAll($select);
-        return $rows->toArray();
+        $rows = $db->fetchAll($select);
         
+        $tasks = array();
+        foreach ($rows as $row) {
+            $task = new Application_Model_Task($row);
+            $tasks[] = $task;
+        }
+        return $tasks;
     }
     
     public function fetchOutstanding()
     {
-        $select = $this->select();
+        $db = $this->getDbAdapter();
+        $select = $db->select();
+        $select->from($this->_tableName);
         $select->where('date_completed IS NULL');
         $select->order(array('due_date ASC', 'id DESC'));
-        $rows = $this->fetchAll($select);
-        return $rows->toArray();
-    }
-
+        $rows = $db->fetchAll($select);
+        foreach ($rows as $row) {
+            $task = new Application_Model_Task($row);
+            $tasks[] = $task;
+        }
+        return $tasks;
+    }    
+    
     public function addTask(array $taskData)
     {
         $data = $this->_mapFromTaskArrayToDataArray($taskData);
@@ -84,5 +126,6 @@ class Application_Model_DbTable_Tasks extends Zend_Db_Table_Abstract
         }
         
         return $data;
-    }
+    }    
+    
 }
