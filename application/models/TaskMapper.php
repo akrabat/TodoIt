@@ -82,20 +82,21 @@ class Application_Model_TaskMapper
         return $tasks;
     }    
     
-    public function addTask(array $taskData)
+    public function save(Application_Model_Task $task)
     {
-        $data = $this->_mapFromTaskArrayToDataArray($taskData);
-        $this->insert($data);
-    }
+        $data = array(
+            'title' => $task->title,
+            'notes' => $task->notes,
+            'due_date' => $task->due_date,
+            'date_completed' => $task->date_completed,
+        );
 
-    public function updateTask($taskData, $id=null)
-    {
-        if (is_null($id) && isset($taskData['id'])) {
-            $id = $taskData['id'];
+        $db = $this->getDbAdapter();
+        if($task->id > 0) {
+            $db->update($this->_tableName, $data, 'id = '.$task->id);
+        } else {
+            $db->insert($this->_tableName, $data);
         }
-        $data = $this->_mapFromTaskArrayToDataArray($taskData);
-        
-        $this->update($data, 'id = ' . (int)$id);
     }
     
     /**

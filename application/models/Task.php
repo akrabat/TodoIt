@@ -2,11 +2,13 @@
 
 class Application_Model_Task implements Zend_Acl_Resource_Interface
 {
+    // metadata (properties)
     protected $_id;
     protected $_title;
     protected $_notes;
     protected $_due_date;
     protected $_date_completed;
+    protected $_created_by;
     protected $_date_created;
     
     public function __construct($data = null)
@@ -24,7 +26,7 @@ class Application_Model_Task implements Zend_Acl_Resource_Interface
      */
     public function getResourceId()
     {
-        return 'task';
+        return 'task';// . $this->getId();
     }
     
     function toArray()
@@ -34,6 +36,7 @@ class Application_Model_Task implements Zend_Acl_Resource_Interface
         $data['notes'] = $this->_notes;
         $data['due_date'] = $this->_due_date;
         $data['date_completed'] = $this->_date_completed;
+        $data['created_by'] = $this->_created_by;
         $data['date_created'] = $this->_date_created;
         
         return $data;
@@ -56,6 +59,9 @@ class Application_Model_Task implements Zend_Acl_Resource_Interface
         if(array_key_exists('date_completed', $data)) {
             $this->_date_completed = $data['date_completed'];
         }
+        if(array_key_exists('created_by', $data)) {
+            $this->_created_by = $data['created_by'];
+        }
         if(array_key_exists('date_created', $data)) {
             $this->_date_created = $data['date_created'];
         }
@@ -63,7 +69,7 @@ class Application_Model_Task implements Zend_Acl_Resource_Interface
                        
     function getId()
     {
-        return $this->_id;
+        return (int)$this->_id;
     }
     
     function getTitle()
@@ -84,6 +90,11 @@ class Application_Model_Task implements Zend_Acl_Resource_Interface
     function getDateCompleted()
     {
         return $this->_date_completed;
+    }
+    
+    function getCreatedBy()
+    {
+        return $this->_created_by;
     }
     
     function getDateCreated()

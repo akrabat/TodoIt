@@ -9,7 +9,8 @@ class IndexController extends Zend_Controller_Action
         $this->view->outstandingTasks = $taskService->fetchOutstanding();
         $this->view->recentlyCompletedTasks = $taskService->fetchRecentlyCompleted();
         
-        $this->view->messages = $this->_helper->flashMessenger->getMessages();
+        $messenger = $this->_helper->flashMessenger;
+        $this->view->messages = $messenger->getMessages();
     }
 
     public function addAction()

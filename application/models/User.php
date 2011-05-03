@@ -2,6 +2,7 @@
 
 class Application_Model_User implements Zend_Acl_Role_Interface, Zend_Acl_Resource_Interface
 {
+    protected $_id;
     protected $_username;
     protected $_password;
     protected $_salt;
@@ -44,6 +45,9 @@ class Application_Model_User implements Zend_Acl_Role_Interface, Zend_Acl_Resour
     
     function setFromArray(array $data)
     {
+        if(array_key_exists('id', $data)) {
+            $this->_id = (int)$data['id'];
+        }
         if(array_key_exists('username', $data)) {
             $this->_username = $data['username'];
         }
@@ -60,6 +64,9 @@ class Application_Model_User implements Zend_Acl_Role_Interface, Zend_Acl_Resour
 
     function setFromObject($data)
     {
+        if (isset($data->id)) {
+            $this->_id = (int)$data->id;
+        }
         if (isset($data->username)) {
             $this->_username = $data->username;
         }
@@ -74,6 +81,11 @@ class Application_Model_User implements Zend_Acl_Role_Interface, Zend_Acl_Resour
         }
     }
 
+    function getId()
+    {
+        return $this->_id;
+    }
+    
     function getUsername()
     {
         return $this->_username;
