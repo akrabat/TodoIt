@@ -1,6 +1,6 @@
 <?php 
 
-class Initial extends Akrabat_Db_Schema_AbstractChange 
+class Tasks extends Akrabat_Db_Schema_AbstractChange 
 {
     function up()
     {
