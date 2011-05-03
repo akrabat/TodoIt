@@ -49,7 +49,7 @@ class Application_Service_TaskService
         return $this->_currentUser;
     }
 
-    public function fetchOutstanding($page, $numberPerPage=5)
+    public function fetchOutstanding($page, $numberPerPage=25)
     {
         $acl = $this->getAcl();
         $user = $this->getCurrentUser();
