@@ -57,14 +57,10 @@ class Application_Model_TaskMapper
         $select->from($this->_tableName);
         $select->where('date_completed IS NOT NULL');
         $select->order(array('date_completed DESC', 'id DESC'));
-        $rows = $db->fetchAll($select);
         
-        $tasks = array();
-        foreach ($rows as $row) {
-            $task = new Application_Model_Task($row);
-            $tasks[] = $task;
-        }
-        return $tasks;
+        $adapter = new Application_Model_Paginator_TaskAdapter($select);
+        $paginator = new Zend_Paginator($adapter);
+        return $paginator;
     }
     
     public function fetchOutstanding()
@@ -74,12 +70,10 @@ class Application_Model_TaskMapper
         $select->from($this->_tableName);
         $select->where('date_completed IS NULL');
         $select->order(array('due_date ASC', 'id DESC'));
-        $rows = $db->fetchAll($select);
-        foreach ($rows as $row) {
-            $task = new Application_Model_Task($row);
-            $tasks[] = $task;
-        }
-        return $tasks;
+
+        $adapter = new Application_Model_Paginator_TaskAdapter($select);
+        $paginator = new Zend_Paginator($adapter);
+        return $paginator;
     }    
     
     public function save(Application_Model_Task $task)

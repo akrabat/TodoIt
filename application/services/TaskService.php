@@ -49,7 +49,7 @@ class Application_Service_TaskService
         return $this->_currentUser;
     }
 
-    public function fetchOutstanding()
+    public function fetchOutstanding($page, $numberPerPage=5)
     {
         $acl = $this->getAcl();
         $user = $this->getCurrentUser();
@@ -57,15 +57,14 @@ class Application_Service_TaskService
         $cache = $this->_getCache();
         $tasks = $cache->load($cacheId);
         if ($tasks === false) {
-            $mapper = new Application_Model_TaskMapper();
+            $mapper = new Application_Model_TaskMapper($acl);
             $tasks = $mapper->fetchOutstanding();
-            foreach ($tasks as $i => $task) {
-                if (!$acl->isAllowed($user, $task, 'read')) {
-                    unset($tasks[$i]);
-                }
-            }
+            $tasks->getAdapter()->setAcl($acl);
+            $tasks->getAdapter()->setUser($user);
             $cache->save($tasks, $cacheId, array('tasks'));
         }
+        $tasks->setCurrentPageNumber($page);
+        $tasks->setItemCountPerPage($numberPerPage);        
         return $tasks;
     }
 

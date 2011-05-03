@@ -6,7 +6,7 @@ class IndexController extends Zend_Controller_Action
     {
         $this->view->title = 'Outstanding tasks';
         $taskService = new Application_Service_TaskService();
-        $this->view->outstandingTasks = $taskService->fetchOutstanding();
+        $this->view->outstandingTasks = $taskService->fetchOutstanding($this->_getParam('page', 1));
         $this->view->recentlyCompletedTasks = $taskService->fetchRecentlyCompleted();
         
         $messenger = $this->_helper->flashMessenger;

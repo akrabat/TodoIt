@@ -58,3 +58,12 @@ form dd {
     float: left;
     
 }
+
+.pagination-control {
+    margin-top: 10px;
+    font-size: 0.9em;
+}
+
+.pagination-control .pagecount{
+    padding-left: 30px;
+}

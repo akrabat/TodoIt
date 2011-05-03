@@ -1,0 +1,62 @@
+<?php
+/*
+$prevDisabled = isset($this->previous) ? '' : ' disabled';
+$nextDisabled = isset($this->next) ?  '' : ' disabled';
+?>
+
+<div id="paging">
+<?php if ($this->pageCount > 1) : ?>
+    <ul>
+        <li class="previous<?php echo $prevDisabled; ?>">
+            <!-- Previous page link -->
+            <?php if (isset($this->previous)): ?>
+              <a href="<?php echo $this->url(array('page' => $this->previous));
+                 // only add the page number in if we aren't going to page 1
+                 if ($this->previous > 1) : ?>?page=<?php echo $this->previous; ?><?php endif; ?>">
+                Previous
+              </a>
+            <?php else: ?>
+              <span class="disabled">Previous</span>
+            <?php endif; ?>
+        </li>
+        <li class="next<?php echo $nextDisabled; ?>">
+            <?php if (isset($this->next)): ?>
+              <a href="<?php echo $this->url(array('page' => $this->next)); ?>?page=<?php echo $this->next; ?>">
+                Next
+              </a>
+            <?php else: ?>
+              <span class="disabled">Next</span>
+            <?php endif; ?>
+        </li>
+    </ul>
+    <span class="pagecount">Page <?php echo $this->current; ?> of <?php echo $this->pageCount; ?></span>
+<?php endif;?>
+</div>
+
+*/ ?>
+
+
+
+
+<?php if ($this->pageCount): ?>
+<div class="pagination-control">
+<!-- Previous page link -->
+<?php if (isset($this->previous)): ?>
+  <a href="<?php echo $this->url(array('page' => $this->previous)); ?>">
+    Previous
+  </a> |
+<?php else: ?>
+  <span class="disabled">&lt; Previous</span> |
+<?php endif; ?>
+
+<!-- Next page link -->
+<?php if (isset($this->next)): ?>
+  <a href="<?php echo $this->url(array('page' => $this->next)); ?>">
+    Next &gt;
+  </a>
+<?php else: ?>
+  <span class="disabled">Next &gt;</span>
+<?php endif; ?>
+<span class="pagecount">Page <?php echo $this->current; ?> of <?php echo $this->pageCount; ?></span>
+</div>
+<?php endif; ?>
