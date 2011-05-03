@@ -19,6 +19,13 @@ class Initial extends Akrabat_Db_Schema_AbstractChange
         $sql[] = "INSERT INTO tasks (title, due_date, date_created, created_by) VALUES ('Task 1', '2011-05-30', NOW(), 1);";
         $sql[] = "INSERT INTO tasks (title, due_date, date_created, created_by) VALUES ('Task 2', '2011-05-10', NOW(), 2);";
         $sql[] = "INSERT INTO tasks (title, due_date, date_created, created_by) VALUES ('Task 3', '2011-06-05', NOW(), 2);";
+        $sql[] = "INSERT INTO tasks (title, due_date, date_created, created_by) VALUES ('Task 4', '2011-06-05', NOW(), 2);";
+        $sql[] = "INSERT INTO tasks (title, due_date, date_created, created_by) VALUES ('Task 5', '2011-06-05', NOW(), 2);";
+        $sql[] = "INSERT INTO tasks (title, due_date, date_created, created_by) VALUES ('Task 6', '2011-06-05', NOW(), 2);";
+        $sql[] = "INSERT INTO tasks (title, due_date, date_created, created_by) VALUES ('Task 7', '2011-06-05', NOW(), 2);";
+        $sql[] = "INSERT INTO tasks (title, due_date, date_created, created_by) VALUES ('Task 8', '2011-06-05', NOW(), 2);";
+        $sql[] = "INSERT INTO tasks (title, due_date, date_created, created_by) VALUES ('Task 9', '2011-06-05', NOW(), 2);";
+        $sql[] = "INSERT INTO tasks (title, due_date, date_created, created_by) VALUES ('Task 10', '2011-06-05', NOW(), 2);";
         
         $this->_runSQL($sql);
     }
