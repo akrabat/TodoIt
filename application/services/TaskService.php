@@ -198,5 +198,11 @@ class Application_Service_TaskService
         $this->_getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,
                 array('tasks'));
     }
+    
+    public function _cleanAllCache()
+    {
+        return $this->_getCache()
+                    ->clean(Zend_Cache::CLEANING_MODE_ALL);
+    }
 
 }
